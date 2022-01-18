@@ -1,9 +1,9 @@
 import Dashboard from '../components/Dashboard/Dashboard';
 
-export default function Home() {
+export default function Home({ user }) {
   return (
     <div>
-      <Dashboard />
+      <Dashboard user={user} />
     </div>
   )
 }
