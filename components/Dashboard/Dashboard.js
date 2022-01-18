@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-import Orders from './Orders';
+import Keywords from './Keywords';
 import cookie from '../../utils/cookie';
 import Router from 'next/router'
 import { useDataProviderContext } from '../../contexts/DataContext';
@@ -62,7 +62,7 @@ function DashboardContent() {
               <Grid item xs={12}>
                 <p>{user.email}    <span style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}>Logout</span></p>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <Keywords />
                 </Paper>
               </Grid>
             </Grid>
