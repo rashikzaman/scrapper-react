@@ -1,40 +1,25 @@
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
 import Keywords from './Keywords';
 import cookie from '../../utils/cookie';
 import Router from 'next/router'
 import { useDataProviderContext } from '../../contexts/DataContext';
-
+import Button from '@mui/material/Button';
+import axios from 'axios'
+import useKeyword from '../../hooks/useKeyword'
 
 const drawerWidth = 240;
 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
   const { user } = useDataProviderContext()
+  const {keywords, handleSubmit, handleFileChange} = useKeyword()
 
   const logout = () => {
     cookie.removeAccessTokenCookie()
@@ -60,9 +45,20 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <p>{user.email}    <span style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}>Logout</span></p>
+                <Grid container spacing={2}>
+                  <Grid item xs={8}>
+                    <form onSubmit={handleSubmit}>
+                      <input name="file" type="file" onChange={handleFileChange} required="required" accept=".csv"/>
+                      <button type="submit">Submit CSV file</button>
+                    </form>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <p>{user.email}<small style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}> Logout</small></p>
+                  </Grid>
+                </Grid>
+
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Keywords />
+                  <Keywords keywords={keywords} />
                 </Paper>
               </Grid>
             </Grid>

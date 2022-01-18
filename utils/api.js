@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const api = async (url, token = null) => {
-    const baseUrl = "http://localhost:8080/api";
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST
     try {
         const response = await axios(`${baseUrl}/${url}`, {
             method: 'GET',

@@ -23,23 +23,17 @@ const theme = createTheme();
 export default function Login() {
 
     const { setUser } = useDataProviderContext()
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-
         try {
-            const result = await axios.post("http://localhost:8080/api/auth/login", {
+            const result = await axios.post(`${baseUrl}/auth/login`, {
                 email: data.get("email"),
                 password: data.get("password")
             })
             if (result.status === 200) {
-                console.log(result.data)
                 setUser(result.data)
                 cookie.setAccessTokenCookie(result.data.access_key)
                 Router.push('/')

@@ -6,30 +6,9 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import cookie from '../../utils/cookie';
-import axios from 'axios';
 
 
-export default function Keywords() {
-  const [keywords, setKeywords] = React.useState([])
-  const loadKeywords = async () => {
-    try {
-      const result = await axios("http://localhost:8080/api/user/keywords", {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${cookie.getAccessTokenCookie()}`
-        }
-      })
-      setKeywords(result.data)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  React.useEffect(() => {
-    loadKeywords()
-  }, [])
-
+export default function Keywords({keywords}) {
 
   return (
     <React.Fragment>
