@@ -15,11 +15,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import cookie from '../utils/cookie';
 import Router from 'next/router'
+import { useDataProviderContext } from '../contexts/DataContext';
 
 
 const theme = createTheme();
 
 export default function Login() {
+
+    const { setUser } = useDataProviderContext()
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -35,6 +39,8 @@ export default function Login() {
                 password: data.get("password")
             })
             if (result.status === 200) {
+                console.log(result.data)
+                setUser(result.data)
                 cookie.setAccessTokenCookie(result.data.access_key)
                 Router.push('/')
             } else {

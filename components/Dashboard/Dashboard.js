@@ -21,18 +21,20 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Orders from './Orders';
 import cookie from '../../utils/cookie';
 import Router from 'next/router'
+import { useDataProviderContext } from '../../contexts/DataContext';
 
 
 const drawerWidth = 240;
 
 const mdTheme = createTheme();
 
-function DashboardContent({user}) {
+function DashboardContent() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const { user } = useDataProviderContext()
 
   const logout = () => {
     cookie.removeAccessTokenCookie()
@@ -58,7 +60,7 @@ function DashboardContent({user}) {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <p>{user.email}    <span style={{color: 'blue', cursor: 'pointer'}} onClick={logout}>Logout</span></p>
+                <p>{user.email}    <span style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}>Logout</span></p>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders />
                 </Paper>
@@ -71,6 +73,6 @@ function DashboardContent({user}) {
   );
 }
 
-export default function Dashboard({user}) {
-  return <DashboardContent user={user} />;
+export default function Dashboard() {
+  return <DashboardContent />;
 }

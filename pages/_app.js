@@ -1,9 +1,10 @@
 import '../styles/globals.css'
 import Cookie from '../utils/cookie'
 import axios from 'axios'
+import { DataProvider } from '../contexts/DataContext';
 
-function MyApp({ Component, pageProps, user, pathname }) {
-  return <Component {...pageProps} />
+function MyApp({ Component, pageProps, }) {
+  return <DataProvider me={pageProps.user}><Component {...pageProps} /></DataProvider>
 }
 
 
@@ -23,6 +24,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
       ctx.res.end();
     }
   }
+  console.log("me", me)
   return { pageProps: { user: me } };
 };
 
