@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,44 +10,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import cookie from '../utils/cookie';
-import Router from 'next/router'
 import { useDataProviderContext } from '../contexts/DataContext';
+import useAuth from '../hooks/useAuth'
+
 
 
 const theme = createTheme();
 
 export default function Login() {
-
-    const { setUser } = useDataProviderContext()
-    const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST
-
+    const { login } = useAuth()
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        try {
-            const result = await axios.post(`${baseUrl}/auth/login`, {
-                email: data.get("email"),
-                password: data.get("password")
-            })
-            if (result.status === 200) {
-                setUser(result.data)
-                cookie.setAccessTokenCookie(result.data.access_key)
-                Router.push('/')
-            } else {
-                alert("Sorry, Login failed!")
-            }
-        } catch (e) {
-            if (e.response) {
-                if (e.response.status == '401') {
-                    alert("Sorry, Login failed")
-                }
-            }
-            else
-                alert("Sorry, Network Failed")
-        }
-
+        await login(event)
     };
 
     return (
@@ -101,7 +73,7 @@ export default function Login() {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/register" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
