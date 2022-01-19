@@ -5,7 +5,24 @@ import cookie from '../utils/cookie'
 const useKeyword = () => {
     const [selectedFile, setSelectedFile] = React.useState()
     const [keywords, setKeywords] = React.useState([])
+    const [searchKey, setSearchKey] = React.useState("")
     const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST
+
+
+    const handleSearch = async (e) => {
+        e.preventDefault()
+        try {
+            const result = await axios(`${baseUrl}/user/keywords?search=${searchKey}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${cookie.getAccessTokenCookie()}`
+                }
+            })
+            setKeywords(result.data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     const loadKeywords = async () => {
         try {
@@ -54,7 +71,7 @@ const useKeyword = () => {
     }
 
 
-    return { keywords, handleSubmit, handleFileChange }
+    return { keywords, handleSubmit, handleFileChange, searchKey, setSearchKey, handleSearch }
 }
 
 export default useKeyword

@@ -10,8 +10,8 @@ import cookie from '../../utils/cookie';
 import Router from 'next/router'
 import { useDataProviderContext } from '../../contexts/DataContext';
 import Button from '@mui/material/Button';
-import axios from 'axios'
 import useKeyword from '../../hooks/useKeyword'
+import TextField from '@mui/material/TextField';
 
 const drawerWidth = 240;
 
@@ -19,7 +19,7 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
   const { user } = useDataProviderContext()
-  const {keywords, handleSubmit, handleFileChange} = useKeyword()
+  const { keywords, handleSubmit, handleFileChange, searchKey, setSearchKey, handleSearch } = useKeyword()
 
   const logout = () => {
     cookie.removeAccessTokenCookie()
@@ -48,7 +48,7 @@ function DashboardContent() {
                 <Grid container spacing={2}>
                   <Grid item xs={8}>
                     <form onSubmit={handleSubmit}>
-                      <input name="file" type="file" onChange={handleFileChange} required="required" accept=".csv"/>
+                      <input name="file" type="file" onChange={handleFileChange} required="required" accept=".csv" />
                       <button type="submit">Submit CSV file</button>
                     </form>
                   </Grid>
@@ -56,6 +56,29 @@ function DashboardContent() {
                     <p>{user.email}<small style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}> Logout</small></p>
                   </Grid>
                 </Grid>
+
+                <Box component="form" onSubmit={handleSearch} noValidate sx={{ mt: 1 }}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="search"
+                    label="Search Keyword"
+                    name="search"
+                    autoComplete="search"
+                    autoFocus
+                    value={searchKey}
+                    onChange={(e) => setSearchKey(e.target.value)}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Search
+                  </Button>
+                </Box>
 
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Keywords keywords={keywords} />
