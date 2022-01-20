@@ -10,7 +10,7 @@ This application depends on `Node.js 12.22.0` or later.
 
 To install the dependencies, run 
 
-`npm install`
+`npm ci`
 
 Create a `.env.local` file from `.env.example`
 
