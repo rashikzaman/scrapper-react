@@ -53,7 +53,7 @@ function DashboardContent() {
                     </form>
                   </Grid>
                   <Grid item xs={4}>
-                    <p>{user.email}<small style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}> Logout</small></p>
+                    <span>{user.email}<small style={{ color: 'blue', cursor: 'pointer' }} onClick={logout}> Logout</small></span>
                   </Grid>
                 </Grid>
 
