@@ -22,8 +22,12 @@ const useAuth = () => {
             }
         } catch (e) {
             if (e.response) {
-                if (e.response.status == '401') {
+                if (e.response.status == '401' || e.response.status === '500') {
                     alert("Sorry, Login failed")
+                } else if(e.response.status === 400){
+                    alert("Login failed, Bad request")
+                } else {
+                    alert("Sorry, Can't process your request")
                 }
             }
             else
@@ -49,6 +53,10 @@ const useAuth = () => {
             if (e.response) {
                 if (e.response.status === 401 || e.response.status === 500) {
                     alert("Sorry, Registration failed")
+                } else if(e.response.status === 400){
+                    alert("Registration failed, Bad request")
+                } else {
+                    alert("Sorry, Cann't process your request")
                 }
             }
             else
