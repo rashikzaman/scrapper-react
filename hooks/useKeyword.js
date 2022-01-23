@@ -1,40 +1,31 @@
 import React from 'react'
-import axios from 'axios'
 import cookie from '../utils/cookie'
+import api from '../utils/api'
 
 const useKeyword = () => {
     const [selectedFile, setSelectedFile] = React.useState()
     const [keywords, setKeywords] = React.useState([])
     const [searchKey, setSearchKey] = React.useState("")
-    const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST
 
 
     const handleSearch = async (e) => {
         e.preventDefault()
         try {
-            const result = await axios(`${baseUrl}/user/keywords?search=${searchKey}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${cookie.getAccessTokenCookie()}`
-                }
-            })
+            const result = await api().get(`user/keywords?search=${searchKey}`, cookie.getAccessTokenCookie())
             setKeywords(result.data)
         } catch (e) {
             console.log(e)
+            alert("Failed to search keywords")
         }
     }
 
     const loadKeywords = async () => {
         try {
-            const result = await axios(`${baseUrl}/user/keywords`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${cookie.getAccessTokenCookie()}`
-                }
-            })
+            const result = await api().get(`user/keywords`, cookie.getAccessTokenCookie())
             setKeywords(result.data)
         } catch (e) {
             console.log(e)
+            alert("Failed to fetch keywords")
         }
     }
 
@@ -47,13 +38,7 @@ const useKeyword = () => {
         const formData = new FormData();
         formData.append('file', selectedFile);
         try {
-            const result = await axios(`${baseUrl}/user/keywords`, {
-                method: 'POST',
-                data: formData,
-                headers: {
-                    'Authorization': `Bearer ${cookie.getAccessTokenCookie()}`
-                }
-            })
+            const result = await api().post(`user/keywords`, cookie.getAccessTokenCookie(), formData)
             if (result.status === 201) {
                 const tempArray = keywords.concat(result.data)
                 setKeywords(tempArray)
