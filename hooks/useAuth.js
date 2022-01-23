@@ -2,14 +2,14 @@ import axios from 'axios'
 import cookie from '../utils/cookie';
 import { useDataProviderContext } from '../contexts/DataContext';
 import Router from 'next/router'
+import api from '../utils/api'
 
 const useAuth = () => {
     const { setUser } = useDataProviderContext()
-    const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST
     const login = async (event) => {
         const data = new FormData(event.currentTarget);
         try {
-            const result = await axios.post(`${baseUrl}/auth/login`, {
+            const result = await api().post("auth/login", null, {
                 email: data.get("email"),
                 password: data.get("password")
             })
@@ -24,7 +24,7 @@ const useAuth = () => {
             if (e.response) {
                 if (e.response.status == '401' || e.response.status === '500') {
                     alert("Sorry, Login failed")
-                } else if(e.response.status === 400){
+                } else if (e.response.status === 400) {
                     alert("Login failed, Bad request")
                 } else {
                     alert("Sorry, Can't process your request")
@@ -38,7 +38,7 @@ const useAuth = () => {
     const register = async (event) => {
         const data = new FormData(event.currentTarget);
         try {
-            const result = await axios.post(`${baseUrl}/auth/signup`, {
+            const result = await api().post(`auth/signup`, null, {
                 email: data.get("email"),
                 password: data.get("password")
             })
@@ -53,7 +53,7 @@ const useAuth = () => {
             if (e.response) {
                 if (e.response.status === 401 || e.response.status === 500) {
                     alert("Sorry, Registration failed")
-                } else if(e.response.status === 400){
+                } else if (e.response.status === 400) {
                     alert("Registration failed, Bad request")
                 } else {
                     alert("Sorry, Cann't process your request")
