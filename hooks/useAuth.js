@@ -1,4 +1,3 @@
-import axios from 'axios'
 import cookie from '../utils/cookie';
 import { useDataProviderContext } from '../contexts/DataContext';
 import Router from 'next/router'
